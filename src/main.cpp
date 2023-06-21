@@ -13,6 +13,7 @@ unsigned long end_pulse = 0;
 unsigned long pulse_width = 0;
 
 // put object declarations here:
+bfs::SbusRx sbus_rx(&Serial2,16,17,false);
 
 // put function declarations here:
 // void IRAM_ATTR read_ppm_signal();
@@ -20,16 +21,29 @@ unsigned long pulse_width = 0;
 void setup(){
   // put your setup code here, to run once:
   Serial.begin(115200);
-  Serial2.begin(100000,SERIAL_8E2);
   pinMode(PPM_PIN, INPUT_PULLUP);
+  sbus_rx.Begin();
   // attachInterrupt(PPM_PIN, read_ppm_signal, FALLING);
 }
 
 void loop(){
   // put your main code here, to run repeatedly:
-  while (Serial2.available())
-  {
-   Serial.println(Serial2.read(),HEX); 
+  if (sbus_rx.Read()) {
+    /* Grab the received data */
+    data = sbus_rx.data();
+    /* Display the received data */
+    for (int8_t i = 0; i < data.NUM_CH; i++) {
+      Serial.print(data.ch[i]);
+      Serial.print("\t");
+    }
+    /* Display lost frames and failsafe data */
+    Serial.print(data.lost_frame);
+    Serial.print("\t");
+    Serial.println(data.failsafe);
+    /* Set the SBUS TX data to the received data */
+    sbus_tx.data(data);
+    /* Write the data to the servos */
+    sbus_tx.Write();
   }
 
   Serial.print(channels_received[0]);
