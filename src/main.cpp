@@ -1,4 +1,6 @@
 #include <Arduino.h>
+#include <sbus.h>
+
 #define PPM_PIN 35 //gpio
 #define T_SYNC 5000 // in micros
 #define NUMBER_OF_CHANNELS 8 // max number of channels
@@ -10,20 +12,24 @@ unsigned long start_pulse = 0;
 unsigned long end_pulse = 0;
 unsigned long pulse_width = 0;
 
+// put object declarations here:
+sbus recieve(&Serial2,16,17); // check pins associated with uart2
+
 // put function declarations here:
 void IRAM_ATTR read_ppm_signal();
 
-void setup()
-{
+void setup(){
   // put your setup code here, to run once:
+  recieve.init();
   Serial.begin(115200);
   pinMode(PPM_PIN, INPUT_PULLUP);
   attachInterrupt(PPM_PIN, read_ppm_signal, FALLING);
 }
 
-void loop()
-{
+void loop(){
   // put your main code here, to run repeatedly:
+
+
   Serial.print(channels_received[0]);
   Serial.print(" ");
   Serial.print(channels_received[1]);
@@ -37,8 +43,7 @@ void loop()
   delay(100);
 }
 
-void IRAM_ATTR read_ppm_signal()
-{
+void IRAM_ATTR read_ppm_signal(){
 
   start_pulse = end_pulse;
   end_pulse = micros();
