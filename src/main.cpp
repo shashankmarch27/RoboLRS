@@ -13,22 +13,24 @@ unsigned long end_pulse = 0;
 unsigned long pulse_width = 0;
 
 // put object declarations here:
-sbus recieve(&Serial2,16,17); // check pins associated with uart2
 
 // put function declarations here:
-void IRAM_ATTR read_ppm_signal();
+// void IRAM_ATTR read_ppm_signal();
 
 void setup(){
   // put your setup code here, to run once:
-  recieve.init();
   Serial.begin(115200);
+  Serial2.begin(100000,SERIAL_8E2);
   pinMode(PPM_PIN, INPUT_PULLUP);
-  attachInterrupt(PPM_PIN, read_ppm_signal, FALLING);
+  // attachInterrupt(PPM_PIN, read_ppm_signal, FALLING);
 }
 
 void loop(){
   // put your main code here, to run repeatedly:
-
+  while (Serial2.available())
+  {
+   Serial.println(Serial2.read(),HEX); 
+  }
 
   Serial.print(channels_received[0]);
   Serial.print(" ");
@@ -43,31 +45,31 @@ void loop(){
   delay(100);
 }
 
-void IRAM_ATTR read_ppm_signal(){
+// void IRAM_ATTR read_ppm_signal(){
 
-  start_pulse = end_pulse;
-  end_pulse = micros();
-  pulse_width = end_pulse - start_pulse;
-
-
-  if (number_of_channels_read == -1)
-  {// first rising edge seen
-    number_of_channels_read = 0;
-    return;
-  }
-  else if (pulse_width > T_SYNC)
-  {
-    number_of_channels_read = 0;
-    return;
-  }else   if (number_of_channels_read > NUMBER_OF_CHANNELS)
-  {
-    // sync bit starts
-    number_of_channels_read = -1;
-    return;
-  }
-
-  number_of_channels_read++;
-  channels_received[number_of_channels_read - 1] = uint16_t(pulse_width);
+//   start_pulse = end_pulse;
+//   end_pulse = micros();
+//   pulse_width = end_pulse - start_pulse;
 
 
-}
+//   if (number_of_channels_read == -1)
+//   {// first rising edge seen
+//     number_of_channels_read = 0;
+//     return;
+//   }
+//   else if (pulse_width > T_SYNC)
+//   {
+//     number_of_channels_read = 0;
+//     return;
+//   }else   if (number_of_channels_read > NUMBER_OF_CHANNELS)
+//   {
+//     // sync bit starts
+//     number_of_channels_read = -1;
+//     return;
+//   }
+
+//   number_of_channels_read++;
+//   channels_received[number_of_channels_read - 1] = uint16_t(pulse_width);
+
+
+// }
