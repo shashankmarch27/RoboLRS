@@ -1,11 +1,15 @@
 #include "ppm.h"
 
+// definitions of static memeber variables
+ppm* ppm::instance = NULL;
+
 ppm::ppm(int pin, uint t_sync, uint8_t max_number_of_channels )
 {
     ppm_pin = pin;
     this->t_sync = t_sync;
     this->max_number_of_channels = max_number_of_channels;
     failsafe = false;
+    frame_lost = false;
     instance = this;
 }
 ppm::~ppm()
@@ -51,6 +55,7 @@ void ppm::deinit()
 {
     detachInterrupt(ppm_pin);
     failsafe = true;
+    frame_lost = true;
 }
 void ppm::read()
 {

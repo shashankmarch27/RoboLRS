@@ -1,16 +1,21 @@
 #include <Arduino.h>
 #include <sbus.h>
 #include <ppm.h>
+#include "OTA.h"
+
+#define SSID "RLRS"
+#define PASSWORD "robolrs"
 
 // put object declarations here:
 // sbus receive(&Serial2,17,16); 
-ppm receive(35,5000, 8);
+ppm receive(35);
 // put function declarations here:
+
 
 
 void setup(){
   // put your setup code here, to run once:
-  Serial.begin(115200);
+  setupOTA("RoboLRS", SSID, PASSWORD);
   receive.init();
 }
 

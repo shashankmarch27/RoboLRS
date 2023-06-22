@@ -49,7 +49,7 @@ public:
     bool frame_lost;
     uint8_t channels_being_received = 0;
 
-    ppm(int pin, uint t_sync, uint8_t max_number_of_channels);
+    ppm(int pin, uint t_sync = 5000, uint8_t max_number_of_channels = 8);
     void init();
     void read();  // dummy functions just to maintain compatibility
     void write(); // dummy functions just to maintain compatibility
