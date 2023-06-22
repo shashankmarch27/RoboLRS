@@ -1,9 +1,13 @@
 #include <Arduino.h>
 #include <sbus.h>
+#include "OTA.h"
 
 #define PPM_PIN 35 //gpio
 #define T_SYNC 5000 // in micros
 #define NUMBER_OF_CHANNELS 8 // max number of channels
+
+#define SSID "RLRS"
+#define PASSWORD "robolrs"
 
 uint16_t channels_received[16] = {0};
 int8_t number_of_channels_read = -1; // -1 means waiting for first rising edge
@@ -20,7 +24,7 @@ void IRAM_ATTR read_ppm_signal();
 
 void setup(){
   // put your setup code here, to run once:
-  Serial.begin(115200);
+  setupOTA("RoboLRS", SSID, PASSWORD);
   pinMode(PPM_PIN, INPUT_PULLUP);
   receive.init();
   attachInterrupt(PPM_PIN, read_ppm_signal, FALLING);
@@ -28,16 +32,17 @@ void setup(){
 
 void loop(){
   // put your main code here, to run repeatedly:
+  ArduinoOTA.handle();  // call this line at regular interval for ota functionality
   receive.read();
 
-  Serial.print(receive.data[AILERON]);
-  Serial.print(" ");
-  Serial.print(receive.data[ELEVATOR]);
-  Serial.print(" ");
-  Serial.print(receive.data[THROTTLE]);
-  Serial.print(" ");
-  Serial.print(receive.data[RUDDER]);
-  Serial.println(" ");
+  TelnetStream.print(receive.data[AILERON]);
+  TelnetStream.print(" ");
+  TelnetStream.print(receive.data[ELEVATOR]);
+  TelnetStream.print(" ");
+  TelnetStream.print(receive.data[THROTTLE]);
+  TelnetStream.print(" ");
+  TelnetStream.print(receive.data[RUDDER]);
+  TelnetStream.println(" ");
 }
 
 void IRAM_ATTR read_ppm_signal(){
