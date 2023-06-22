@@ -7,3 +7,7 @@
 ## Pinout
 
 ![esp32 pinout](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2018/08/ESP32-DOIT-DEVKIT-V1-Board-Pinout-30-GPIOs-Copy.png?quality=100&strip=all&ssl=1)
+
+## Useful git commands
+
+`git submodule update --init --recursive`
