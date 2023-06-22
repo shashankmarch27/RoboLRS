@@ -16,14 +16,15 @@ void setup(){
 
 void loop(){
   // put your main code here, to run repeatedly:
+  ArduinoOTA.handle();  // call this line at regular interval for ota functionality
   receive.read();
 
-  Serial.print(receive.data[AILERON]);
-  Serial.print(" ");
-  Serial.print(receive.data[ELEVATOR]);
-  Serial.print(" ");
-  Serial.print(receive.data[THROTTLE]);
-  Serial.print(" ");
-  Serial.print(receive.data[RUDDER]);
-  Serial.println(" ");
+  TelnetStream.print(receive.data[AILERON]);
+  TelnetStream.print(" ");
+  TelnetStream.print(receive.data[ELEVATOR]);
+  TelnetStream.print(" ");
+  TelnetStream.print(receive.data[THROTTLE]);
+  TelnetStream.print(" ");
+  TelnetStream.print(receive.data[RUDDER]);
+  TelnetStream.println(" ");
 }
