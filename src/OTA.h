@@ -46,6 +46,14 @@ void setupOTA(const char *nameprefix, const char *ssid, const char *password)
     Serial.println(WiFi.channel());
   }
 
+  IPAddress AP_LOCAL_IP(10, 0, 0, 1);
+  IPAddress AP_GATEWAY_IP(10, 0, 0, 1);
+  IPAddress AP_NETWORK_MASK(255, 255, 255, 0);
+  if (!WiFi.softAPConfig(AP_LOCAL_IP, AP_GATEWAY_IP, AP_NETWORK_MASK)) {
+    Serial.println("AP Config Failed");
+    return;
+  }
+
   // Port defaults to 3232
   // ArduinoOTA.setPort(3232); // Use 8266 port if you are working in Sloeber IDE, it is fixed there and not adjustable
 
@@ -88,7 +96,7 @@ void setupOTA(const char *nameprefix, const char *ssid, const char *password)
 
   Serial.println("OTA Initialized");
   Serial.print("IP address: ");
-  Serial.println("192.168.4.1");
+  Serial.println(WiFi.softAPIP());
 
 #if defined(ESP32_RTOS) && defined(ESP32)
   xTaskCreate(

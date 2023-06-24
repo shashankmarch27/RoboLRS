@@ -30,9 +30,6 @@ private:
     unsigned long end_pulse = 0;
     unsigned long pulse_width = 0;
 
-    bool header_detected_sbus = false;
-    int prev_buffer_sbus;
-    int buffer_sbus;
     int rx_index;
     uint8_t data_rx[25];
     uint8_t data_tx[25];
