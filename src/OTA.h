@@ -88,7 +88,7 @@ void setupOTA(const char *nameprefix, const char *ssid, const char *password)
 
   Serial.println("OTA Initialized");
   Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
+  Serial.println("192.168.4.1");
 
 #if defined(ESP32_RTOS) && defined(ESP32)
   xTaskCreate(
