@@ -11,3 +11,13 @@
 ## Useful git commands
 
 `git submodule update --init --recursive`
+
+## Tasks
+
+- [ ] Make a interface for adding , deleting , finding slaves
+- [x] have to turn off internal module (EdgeTX/edgetx#3364)
+- [ ] updated sbus submodule , use main branch instead of ESP branch
+- [ ] Check Group Description
+- [ ] Different channel for different bot
+- [ ] ota giving cpu reset error
+- [ ] oled screen + menu interface

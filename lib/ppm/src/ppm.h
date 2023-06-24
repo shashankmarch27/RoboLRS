@@ -48,6 +48,7 @@ public:
     bool failsafe;
     bool frame_lost;
     uint8_t channels_being_received = 0;
+    uint number_of_packets_received = 0;
 
     ppm(int pin, uint t_sync = 5000, uint8_t max_number_of_channels = 8);
     void init();
