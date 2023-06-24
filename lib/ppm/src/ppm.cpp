@@ -50,7 +50,7 @@ void IRAM_ATTR ppm::read_ppm_signal()
 
         return;
     }
-    else if (instance->pulse_width > 2300)
+    else if (instance->pulse_width > 2100 || instance->pulse_width<980)
     { // wrong signal
         instance->frame_lost = true;
         instance->failsafe = true;

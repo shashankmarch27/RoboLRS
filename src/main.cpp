@@ -6,6 +6,8 @@
 #include "OTA.h"
 #include "Credentials.h"
 
+#define OTA_PIN 32
+
 // REPLACE WITH YOUR RECEIVER MAC Address
 uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 esp_now_peer_info_t peerInfo;
@@ -233,8 +235,14 @@ void printChannelValues()
 void setup()
 {
   // put your setup code here, to run once:
-
   Serial.begin(115200);
+  pinMode(OTA_PIN, INPUT_PULLUP);
+  if (digitalRead(OTA_PIN) == LOW)
+  {
+    Serial.println("Going into OTA update mode");
+    setupOTA("RoboLRS1", SSID, PASSWORD);
+  }
+
   receive.init();
   printInstructions();
   inputmode = PPM;

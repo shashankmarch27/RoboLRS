@@ -8,18 +8,21 @@
 
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
-#include <TelnetStream.h>
+#include "Credentials.h"
 
 #if defined(ESP32_RTOS) && defined(ESP32)
-void ota_handle( void * parameter ) {
-  for (;;) {
+void ota_handle(void *parameter)
+{
+  for (;;)
+  {
     ArduinoOTA.handle();
     delay(3500);
   }
 }
 #endif
 
-void setupOTA(const char* nameprefix, const char* ssid, const char* password) {
+void setupOTA(const char *nameprefix, const char *ssid, const char *password)
+{
   // Configure the hostname
   uint16_t maxlen = strlen(nameprefix) + 7;
   char *fullhostname = new char[maxlen];
@@ -31,18 +34,20 @@ void setupOTA(const char* nameprefix, const char* ssid, const char* password) {
 
   // Configure and start the WiFi station
   WiFi.mode(WIFI_AP);
-  WiFi.begin(ssid, password);
-
-  // Wait for connection
-  while (WiFi.waitForConnectResult() != WL_CONNECTED) {
-    Serial.println("Connection Failed! Rebooting...");
-    delay(5000);
-    ESP.restart();
+  bool result = WiFi.softAP(ssid, password, 1, 0);
+  if (!result)
+  {
+    Serial.println("AP Config failed.");
+  }
+  else
+  {
+    Serial.println("AP Config Success. Broadcasting with AP: " + String(SSID));
+    Serial.print("AP CHANNEL ");
+    Serial.println(WiFi.channel());
   }
 
   // Port defaults to 3232
   // ArduinoOTA.setPort(3232); // Use 8266 port if you are working in Sloeber IDE, it is fixed there and not adjustable
-
 
   // No authentication by default
   // ArduinoOTA.setPassword("admin");
@@ -51,7 +56,8 @@ void setupOTA(const char* nameprefix, const char* ssid, const char* password) {
   // MD5(admin) = 21232f297a57a5a743894a0e4a801fc3
   // ArduinoOTA.setPasswordHash("21232f297a57a5a743894a0e4a801fc3");
 
-  ArduinoOTA.onStart([]() {
+  ArduinoOTA.onStart([]()
+                     {
 	//NOTE: make .detach() here for all functions called by Ticker.h library - not to interrupt transfer process in any way.
 
     String type;
@@ -61,28 +67,24 @@ void setupOTA(const char* nameprefix, const char* ssid, const char* password) {
       type = "filesystem";
 
     // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
-    Serial.println("Start updating " + type);
-  });
-  
-  ArduinoOTA.onEnd([]() {
-    Serial.println("\nEnd");
-  });
-  
-  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
-    Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
-  });
-  
-  ArduinoOTA.onError([](ota_error_t error) {
+    Serial.println("Start updating " + type); });
+
+  ArduinoOTA.onEnd([]()
+                   { Serial.println("\nEnd"); });
+
+  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total)
+                        { Serial.printf("Progress: %u%%\r", (progress / (total / 100))); });
+
+  ArduinoOTA.onError([](ota_error_t error)
+                     {
     Serial.printf("Error[%u]: ", error);
     if (error == OTA_AUTH_ERROR) Serial.println("\nAuth Failed");
     else if (error == OTA_BEGIN_ERROR) Serial.println("\nBegin Failed");
     else if (error == OTA_CONNECT_ERROR) Serial.println("\nConnect Failed");
     else if (error == OTA_RECEIVE_ERROR) Serial.println("\nReceive Failed");
-    else if (error == OTA_END_ERROR) Serial.println("\nEnd Failed");
-  });
+    else if (error == OTA_END_ERROR) Serial.println("\nEnd Failed"); });
 
   ArduinoOTA.begin();
-  TelnetStream.begin();
 
   Serial.println("OTA Initialized");
   Serial.print("IP address: ");
@@ -90,11 +92,14 @@ void setupOTA(const char* nameprefix, const char* ssid, const char* password) {
 
 #if defined(ESP32_RTOS) && defined(ESP32)
   xTaskCreate(
-    ota_handle,          /* Task function. */
-    "OTA_HANDLE",        /* String with name of task. */
-    10000,            /* Stack size in bytes. */
-    NULL,             /* Parameter passed as input of the task */
-    1,                /* Priority of the task. */
-    NULL);            /* Task handle. */
+      ota_handle,   /* Task function. */
+      "OTA_HANDLE", /* String with name of task. */
+      10000,        /* Stack size in bytes. */
+      NULL,         /* Parameter passed as input of the task */
+      1,            /* Priority of the task. */
+      NULL);        /* Task handle. */
 #endif
+
+  while (true)
+    ArduinoOTA.handle();
 }
