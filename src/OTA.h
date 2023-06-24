@@ -30,7 +30,7 @@ void setupOTA(const char* nameprefix, const char* ssid, const char* password) {
   delete[] fullhostname;
 
   // Configure and start the WiFi station
-  WiFi.mode(WIFI_STA);
+  WiFi.mode(WIFI_AP);
   WiFi.begin(ssid, password);
 
   // Wait for connection
