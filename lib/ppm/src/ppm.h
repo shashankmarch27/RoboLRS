@@ -2,22 +2,29 @@
 #define PPM_H
 #include <Arduino.h>
 
-#define AILERON 0
-#define ELEVATOR 1
-#define THROTTLE 2
-#define RUDDER 3
-#define AUX1 4
-#define AUX2 5
-#define AUX3 6
-#define AUX4 7
-#define AUX5 8
-#define AUX6 9
-#define AUX7 10
-#define AUX8 11
-#define AUX9 12
-#define AUX10 13
-#define AUX11 14
-#define AUX12 15
+#ifndef PACKET_TYPE
+#define PACKET_TYPE
+struct packet{
+  uint16_t aileron = 1500;
+  uint16_t elevator = 1500;
+  uint16_t throttle = 1000;
+  uint16_t rudder = 1500;
+  uint16_t aux1 = 1000;
+  uint16_t aux2 = 1000;
+  uint16_t aux3 = 1000;
+  uint16_t aux4 = 1000;
+  uint16_t aux5 = 1000;
+  uint16_t aux6 = 1000;
+  uint16_t aux7 = 1000;
+  uint16_t aux8 = 1000;
+  uint16_t aux9 = 1000;
+  uint16_t aux10 = 1000;
+  uint16_t aux11 = 1000;
+  uint16_t aux12 = 1000;
+  uint16_t rssi = 0;
+
+};
+#endif
 
 class ppm
 {
@@ -40,7 +47,7 @@ private:
 public:
     static ppm* instance; // this approach limits the number of ppm inputs to 1 only
     void static IRAM_ATTR read_ppm_signal();
-
+    packet data_struct;
     uint16_t data[16] = {0};
     bool failsafe;
     bool frame_lost;
@@ -49,7 +56,7 @@ public:
 
     ppm(int pin, uint t_sync = 5000, uint8_t max_number_of_channels = 8);
     void init();
-    void read();  // dummy functions just to maintain compatibility
+    packet* read();  
     void write(); // dummy functions just to maintain compatibility
     void deinit();
     ~ppm();

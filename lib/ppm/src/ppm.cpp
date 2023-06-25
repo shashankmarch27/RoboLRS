@@ -65,6 +65,7 @@ void IRAM_ATTR ppm::read_ppm_signal()
 
     instance->number_of_channels_read++;
     instance->data[instance->number_of_channels_read - 1] = uint16_t(instance->pulse_width);
+    instance->data[instance->number_of_channels_read - 1] = constrain(instance->data[instance->number_of_channels_read - 1] , 988 , 2011);
 }
 void ppm::deinit()
 {
@@ -72,7 +73,7 @@ void ppm::deinit()
     failsafe = true;
     frame_lost = true;
 }
-void ppm::read()
+packet* ppm::read()
 {
     // will check whther the receiver is missing or not
     if (micros() - end_pulse > 2000000) // no edge in 2 seconds
@@ -81,6 +82,26 @@ void ppm::read()
         failsafe = true;
         frame_lost = true;
     }
+    data_struct.aileron = data[0];
+    data_struct.elevator = data[1];
+    data_struct.throttle = data[2];
+    data_struct.rudder = data[3];
+    data_struct.aux1 = data[4];
+    data_struct.aux2 = data[5];
+    data_struct.aux3 = data[6];
+    data_struct.aux4 = data[7];
+    data_struct.aux5 = data[8];
+    data_struct.aux6 = data[9];
+    data_struct.aux7 = data[10];
+    data_struct.aux8 = data[11];
+    data_struct.aux9 = data[12];
+    data_struct.aux10 = data[13];
+    data_struct.aux11 = data[14];
+    data_struct.aux12 = data[15];
+
+    return (&data_struct);
+
+
 }
 void ppm::write()
 {
