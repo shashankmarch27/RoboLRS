@@ -73,7 +73,7 @@ void ppm::deinit()
     failsafe = true;
     frame_lost = true;
 }
-packet* ppm::read()
+void ppm::read(channel& data_struct)
 {
     // will check whther the receiver is missing or not
     if (micros() - end_pulse > 2000000) // no edge in 2 seconds
@@ -82,26 +82,22 @@ packet* ppm::read()
         failsafe = true;
         frame_lost = true;
     }
-    data_struct.aileron = data[0];
-    data_struct.elevator = data[1];
-    data_struct.throttle = data[2];
-    data_struct.rudder = data[3];
-    data_struct.aux1 = data[4];
-    data_struct.aux2 = data[5];
-    data_struct.aux3 = data[6];
-    data_struct.aux4 = data[7];
-    data_struct.aux5 = data[8];
-    data_struct.aux6 = data[9];
-    data_struct.aux7 = data[10];
-    data_struct.aux8 = data[11];
-    data_struct.aux9 = data[12];
-    data_struct.aux10 = data[13];
-    data_struct.aux11 = data[14];
-    data_struct.aux12 = data[15];
-
-    return (&data_struct);
-
-
+    data_struct.channelValue[0] = data[0];
+    data_struct.channelValue[1] = data[1];
+    data_struct.channelValue[2] = data[2];
+    data_struct.channelValue[3] = data[3];
+    data_struct.channelValue[4] = data[4];
+    data_struct.channelValue[5] = data[5];
+    data_struct.channelValue[6] = data[6];
+    data_struct.channelValue[7] = data[7];
+    data_struct.channelValue[8] = data[8];
+    data_struct.channelValue[9] = data[9];
+    data_struct.channelValue[10] = data[10];
+    data_struct.channelValue[11] = data[11];
+    data_struct.channelValue[12] = data[12];
+    data_struct.channelValue[13] = data[13];
+    data_struct.channelValue[14] = data[14];
+    data_struct.channelValue[15] = data[15];
 }
 void ppm::write()
 {
