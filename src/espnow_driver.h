@@ -8,30 +8,7 @@
 
 int channel = 1;
 
-#ifndef PACKET_TYPE
-#define PACKET_TYPE
-struct packet{
-  uint16_t aileron = 1500;
-  uint16_t elevator = 1500;
-  uint16_t throttle = 1000;
-  uint16_t rudder = 1500;
-  uint16_t aux1 = 1000;
-  uint16_t aux2 = 1000;
-  uint16_t aux3 = 1000;
-  uint16_t aux4 = 1000;
-  uint16_t aux5 = 1000;
-  uint16_t aux6 = 1000;
-  uint16_t aux7 = 1000;
-  uint16_t aux8 = 1000;
-  uint16_t aux9 = 1000;
-  uint16_t aux10 = 1000;
-  uint16_t aux11 = 1000;
-  uint16_t aux12 = 1000;
-  uint16_t rssi = 0;
-
-};
-#endif
-packet* dataPacketPointer;
+sbus::channel packet;
 
 uint8_t broadcastAddress[] = {0x78, 0x21, 0x84, 0x92, 0x02, 0x29};
 esp_now_peer_info_t peerInfo;
@@ -43,7 +20,7 @@ void sendESP_NOW_Master();
 void initializeESP_NOW_Slave();
 void OnDataRecv_Slave(const uint8_t *mac_addr, const uint8_t *data, int data_len);
 
-// put function defenation here:
+// put function definition here:
 void OnDataSent_Master(const uint8_t *mac_addr, esp_now_send_status_t status){
   Serial.print("\r\nLast Packet Send Status:\t");
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
@@ -91,7 +68,7 @@ void initializeESP_NOW_Master(){
 void sendESP_NOW_Master(){
   // Send message via ESP-NOW
   
-  esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *)dataPacketPointer, sizeof(packet));
+  esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *)&packet, sizeof(packet));
 
   while(result != ESP_OK){
     Serial.println("Sending");
@@ -136,11 +113,5 @@ void OnDataRecv_Slave(const uint8_t *mac_addr, const uint8_t *data, int data_len
   char macStr[18];
   snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
            mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
-  memcpy(dataPacketPointer , data ,sizeof(packet));
-  Serial.print("Last Packet Recv from: ");
-  Serial.println(macStr);
-  Serial.print("Last Packet Recv Data: ");
-  Serial.println(dataPacketPointer->throttle);
-  // Serial.println(dataPacketPointer.b);
-  Serial.println("");
+  memcpy(&packet , data ,sizeof(packet));
 }
