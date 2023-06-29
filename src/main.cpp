@@ -7,8 +7,9 @@
 #include "OTA.h"
 #include "Credentials.h"
 #include "espnow_driver.h"
+#include "botDriver.h"
 
-#define MASTER 1
+// #define MASTER 1
 
 sbus receive(&Serial2,16,17);
 
@@ -25,6 +26,7 @@ void setup(){
   initializeESP_NOW_Master();
   #else
   initializeESP_NOW_Slave();
+  initialise_driver();
   #endif
 }
 
@@ -33,7 +35,8 @@ void loop(){
   #if defined(MASTER)
   receive.read(packet);
   sendESP_NOW_Master();
-  #else if
+  #else
+  
   printChannelvalue();
   #endif
 }
