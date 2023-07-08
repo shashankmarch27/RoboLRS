@@ -5,13 +5,13 @@
 #include "Credentials.h"
 #include <sbus.h>
 #include <ppm.h>
-#include "botDriver.h"
 
 int channel = 1;
+int current_millis;
+int previous_millis;
 
-sbus::channel packet;
-
-uint8_t broadcastAddress[] = {0x78, 0x21, 0x84, 0x92, 0x02, 0x29};
+sbus::sbusChannel_t packet;
+uint8_t broadcastAddress[] = {0x94, 0xE6, 0x86, 0x02, 0x9E, 0xBD};
 esp_now_peer_info_t peerInfo;
 
 // put function decelaration  here:
@@ -68,19 +68,19 @@ void initializeESP_NOW_Master(){
 
 void sendESP_NOW_Master(){
   // Send message via ESP-NOW
-  
-  esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *)&packet, sizeof(packet));
-
-  while(result != ESP_OK){
+  current_millis = millis();
+  if(current_millis - previous_millis > 10){
+    previous_millis = current_millis;
+    esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *)&packet, sizeof(packet));
+    if(result != ESP_OK){
     Serial.println("Sending");
+  }
   }
 }
 
 void initializeESP_NOW_Slave(){
   // Set device in AP mode to begin with
   WiFi.mode(WIFI_AP);
-  int8_t power = 78; // 100 mw
-  esp_wifi_get_max_tx_power(&power);
   bool result = WiFi.softAP(SSID, PASSWORD, channel, 0);
   if (!result){
     Serial.println("AP Config failed.");
@@ -115,5 +115,4 @@ void OnDataRecv_Slave(const uint8_t *mac_addr, const uint8_t *data, int data_len
   snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
            mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
   memcpy(&packet , data ,sizeof(packet));
-  drive_motor(packet);
 }
