@@ -12,6 +12,12 @@
 
 `git submodule update --init --recursive`
 
+
+## Useful PIO commands
+`pio run -e transmitter --upload-port <COM_PORT> -t upload` for uploading to tx module 
+<br>
+`pio run -e reciever --upload-port <COM_PORT> -t upload` for uploading to rx module
+
 ## Tasks
 
 - [ ] Make a interface for adding , deleting , finding slaves

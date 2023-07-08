@@ -13,7 +13,7 @@
 #define LPWM_2 21
 #define L_EN_2 19 // pin for L_EN
 
-#define STOP_HARD_MODE 0
+#define STOP_HARD_MODE 1
 
 /////// //////////////////////////////PWM Config
 #define PWM_FREQUENCY 10000
