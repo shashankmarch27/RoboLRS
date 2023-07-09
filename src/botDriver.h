@@ -21,10 +21,10 @@
 #define PWM_MIN 0   // corresponds to 0 degress
 #define PWM_MAX 255 // corresponds to 180 degrees
 
-#define motor1Channel 0
-#define motor2Channel 1
-#define motor3Channel 2
-#define motor4Channel 3
+#define MOTOR1CHANNEL 0
+#define MOTOR2CHANNEL 1
+#define MOTOR3CHANNEL 2
+#define MOTOR4CHANNEL 3
 
 /////////////////////////////////////////////////User Specified Data /////////////////////////////////////////////
 int max_ch_rudder = 1780;
@@ -55,24 +55,24 @@ void initialise_driver(){
     pinMode(L_EN_2, OUTPUT);
     pinMode(LPWM_2,OUTPUT);
     pinMode(RPWM_2,OUTPUT);
-    ledcSetup(motor1Channel, PWM_FREQUENCY, PWM_RESOLUTION);
-    ledcSetup(motor2Channel, PWM_FREQUENCY, PWM_RESOLUTION);
-    ledcAttachPin(LPWM_1, motor1Channel);
-    ledcAttachPin(RPWM_1, motor2Channel);
+    ledcSetup(MOTOR1CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
+    ledcSetup(MOTOR2CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
+    ledcAttachPin(LPWM_1, MOTOR1CHANNEL);
+    ledcAttachPin(RPWM_1, MOTOR2CHANNEL);
 
     #else
     pinMode(LPWM_1,OUTPUT);
     pinMode(LPWM_2,OUTPUT);
     pinMode(RPWM_1,OUTPUT);
     pinMode(RPWM_2,OUTPUT);
-    ledcSetup(motor1Channel, PWM_FREQUENCY, PWM_RESOLUTION);
-    ledcSetup(motor2Channel, PWM_FREQUENCY, PWM_RESOLUTION);
-    ledcSetup(motor3Channel, PWM_FREQUENCY, PWM_RESOLUTION);
-    ledcSetup(motor4Channel, PWM_FREQUENCY, PWM_RESOLUTION);
-    ledcAttachPin(R_EN_1, motor1Channel);
-    ledcAttachPin(R_EN_2, motor2Channel);
-    ledcAttachPin(L_EN_1, motor3Channel);
-    ledcAttachPin(L_EN_2, motor4Channel);
+    ledcSetup(MOTOR1CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
+    ledcSetup(MOTOR2CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
+    ledcSetup(MOTOR3CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
+    ledcSetup(MOTOR4CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
+    ledcAttachPin(R_EN_1, MOTOR1CHANNEL);
+    ledcAttachPin(R_EN_2, MOTOR2CHANNEL);
+    ledcAttachPin(L_EN_1, MOTOR3CHANNEL);
+    ledcAttachPin(L_EN_2, MOTOR4CHANNEL);
 
     #endif
 }
@@ -134,20 +134,20 @@ void drive_motor(sbus::sbuspacket_t* packet){
 
     #if STOP_HARD_MODE 
     if(motor_left_rpm >= 0){
-        ledcWrite(motor1Channel,motor_left_rpm);
+        ledcWrite(MOTOR1CHANNEL,motor_left_rpm);
         digitalWrite(LPWM_2,LOW);
     }
     else{
-        ledcWrite(motor1Channel,255 - abs(motor_left_rpm));
+        ledcWrite(MOTOR1CHANNEL,255 - abs(motor_left_rpm));
         digitalWrite(LPWM_2,HIGH);
     }
 
     if(motor_right_rpm >= 0){
-        ledcWrite(motor2Channel,motor_right_rpm);
+        ledcWrite(MOTOR2CHANNEL,motor_right_rpm);
         digitalWrite(RPWM_2,LOW);
     }
     else{
-        ledcWrite(motor2Channel,255 - abs(motor_right_rpm));
+        ledcWrite(MOTOR2CHANNEL,255 - abs(motor_right_rpm));
         digitalWrite(RPWM_2,HIGH);
     }
 
@@ -169,10 +169,10 @@ void drive_motor(sbus::sbuspacket_t* packet){
         digitalWrite(RPWM_1,HIGH);
         digitalWrite(RPWM_2,LOW);
     }
-    ledcWrite(motor3Channel,abs(motor_left_rpm));
-    ledcWrite(motor4Channel,abs(motor_left_rpm));
-    ledcWrite(motor1Channel,abs(motor_right_rpm));
-    ledcWrite(motor2Channel,abs(motor_right_rpm));
+    ledcWrite(MOTOR3CHANNEL,abs(motor_left_rpm));
+    ledcWrite(MOTOR4CHANNEL,abs(motor_left_rpm));
+    ledcWrite(MOTOR1CHANNEL,abs(motor_right_rpm));
+    ledcWrite(MOTOR2CHANNEL,abs(motor_right_rpm));
     #endif
 }
 #endif

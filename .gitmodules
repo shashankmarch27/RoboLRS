@@ -1,4 +1,3 @@
 [submodule "lib/sbus"]
 	path = lib/sbus
 	url = https://github.com/shashankmarch27/sbus.git
-	branch = RoboLRS
