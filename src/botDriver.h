@@ -77,7 +77,7 @@ void initialise_driver(){
     #endif
 }
 
-void drive_motor(sbus::sbuspacket_t* packet){
+void drive_motor(sbuspacket_t* packet){
 
     if ((packet->channel5 < 1000) || packet->failsafe){
         #if STOP_HARD_MODE 

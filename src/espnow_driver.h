@@ -10,7 +10,7 @@ int channel = 1;
 int current_millis;
 int previous_millis;
 
-sbus::sbuspacket_t packet;
+sbuspacket_t packet;
 uint8_t broadcastAddress[] = {0x94, 0xE6, 0x86, 0x02, 0x9E, 0xBD};
 esp_now_peer_info_t peerInfo;
 
