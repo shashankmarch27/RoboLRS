@@ -1,3 +1,6 @@
 [submodule "lib/sbus"]
 	path = lib/sbus
 	url = https://github.com/shashankmarch27/sbus.git
+[submodule "lib/CRSF"]
+	path = lib/CRSF
+	url = https://github.com/shashankmarch27/CRSF.git
