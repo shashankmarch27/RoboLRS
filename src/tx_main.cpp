@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <sbus.h>
+#include <crsf.h>
 #include <ppm.h>
 #include <WiFi.h>
 #include <AsyncTCP.h>
@@ -24,13 +25,13 @@ void setup(){
   // put your setup code here, to run once:
   Serial.begin(115200);
   receive.init();
-  // initializeESP_NOW_Master();
+  initializeESP_NOW_Master();
 }
 
 void loop(){
   // put your main code here, to run repeatedly:
   receive.read(&packet);
-  // sendESP_NOW_Master();
+  sendESP_NOW_Master();
 }
 
 // Put function definition here:
