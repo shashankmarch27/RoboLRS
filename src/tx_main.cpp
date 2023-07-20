@@ -30,37 +30,37 @@ void setup(){
 void loop(){
   // put your main code here, to run repeatedly:
   receive.read(&packet);
-  Serial.print(packet.ch0);
+  Serial.print(packet.channel0);
   Serial.print("\t");
-  Serial.print(packet.ch1);
+  Serial.print(packet.channel1);
   Serial.print("\t");
-  Serial.print(packet.ch2);
+  Serial.print(packet.channel2);
   Serial.print("\t");
-  Serial.print(packet.ch3);
+  Serial.print(packet.channel3);
   Serial.print("\t");
-  Serial.print(packet.ch4);
+  Serial.print(packet.channel4);
   Serial.print("\t");
-  Serial.print(packet.ch5);
+  Serial.print(packet.channel5);
   Serial.print("\t");
-  Serial.print(packet.ch6);
+  Serial.print(packet.channel6);
   Serial.print("\t");
-  Serial.print(packet.ch7);
+  Serial.print(packet.channel7);
   Serial.print("\t");
-  Serial.print(packet.ch8);
+  Serial.print(packet.channel8);
   Serial.print("\t");
-  Serial.print(packet.ch9);
+  Serial.print(packet.channel9);
   Serial.print("\t");
-  Serial.print(packet.ch10);
+  Serial.print(packet.channel10);
   Serial.print("\t");
-  Serial.print(packet.ch11);
+  Serial.print(packet.channel11);
   Serial.print("\t");
-  Serial.print(packet.ch12);
+  Serial.print(packet.channel12);
   Serial.print("\t");
-  Serial.print(packet.ch13);
+  Serial.print(packet.channel13);
   Serial.print("\t");
-  Serial.print(packet.ch14);
+  Serial.print(packet.channel14);
   Serial.print("\t");
-  Serial.print(packet.ch15);
+  Serial.print(packet.channel15);
   Serial.println("\t");
 
 
