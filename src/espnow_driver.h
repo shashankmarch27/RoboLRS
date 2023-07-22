@@ -10,7 +10,6 @@ int channel = 1;
 int current_millis;
 int previous_millis;
 
-crsf_channels_t packet;
 uint8_t broadcastAddress[] = {0x94, 0xE6, 0x86, 0x02, 0x9E, 0xBD};
 esp_now_peer_info_t peerInfo;
 
@@ -66,7 +65,7 @@ void initializeESP_NOW_Master(){
   esp_wifi_get_max_tx_power(&power);
 }
 
-void sendESP_NOW_Master(){
+void sendESP_NOW_Master(crsf_channels_t packet){
   // Send message via ESP-NOW
   current_millis = millis();
   if(current_millis - previous_millis > 10){
@@ -114,5 +113,6 @@ void OnDataRecv_Slave(const uint8_t *mac_addr, const uint8_t *data, int data_len
   char macStr[18];
   snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
            mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
-  memcpy(&packet , data ,sizeof(packet));
+  // memcpy(&packet , data ,sizeof(packet));
+  // fix this later
 }
