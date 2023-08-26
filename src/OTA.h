@@ -107,7 +107,4 @@ void setupOTA(const char *nameprefix, const char *ssid, const char *password)
       1,            /* Priority of the task. */
       NULL);        /* Task handle. */
 #endif
-
-  while (true)
-    ArduinoOTA.handle();
 }
