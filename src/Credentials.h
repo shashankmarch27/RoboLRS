@@ -1,3 +1,3 @@
 // replace by your credentials
-#define SSID "RLRS1"
-#define PASSWORD "robolrs1"
+#define SSID "RLRS"
+#define PASSWORD "12345678"
