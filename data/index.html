@@ -1,12 +1,29 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="index.css">  
-        <title>RoboLRS</title>
-    </head>
-    <body>
-        Mac Address
-        <br>
-        <input type="text" id="Username" />
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAC Address and Protocol</title>
+    <link rel="stylesheet" href="index.css"> <!-- Link to the external CSS file -->
+</head>
+<body>
+    <div class="container">
+        <h1>MAC Address and Protocol Input</h1>
+        <form>
+            <label for="macAddress">MAC Address:</label>
+            <input type="text" id="macAddress" name="macAddress" placeholder="Enter MAC Address" required>
+
+            <label for="protocol">Protocol:</label>
+            <select id="protocol" name="protocol" value>
+                <option value="sbus">SBUS</option>
+                <option value="crsf" selected>CRSF</option> <!-- Default value indicated by selected attribute-->
+                <option value="pwm">PWM</option>
+                <option value="ppm">PPM</option>
+
+            </select>
+            
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
 </html>
