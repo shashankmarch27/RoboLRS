@@ -16,8 +16,6 @@ crsf receive(&Serial2,5,18,UNINVERTED_CRSF);
 crsf_channels_t packet;
 
 // put function declarations here:
-void setup();
-void loop();
 void notFound(AsyncWebServerRequest *request);
 
 void setup(){
@@ -59,15 +57,15 @@ void setup(){
 void loop(){
   // put your main code here, to run repeatedly:
 
-  receive.read();
-  packet = receive.getChannel();
-  Serial.print(packet.channel1);
-  Serial.print("  ");
-  Serial.print(packet.channel2);
-  Serial.print("  ");
-  Serial.print(packet.channel3);
-  Serial.print("  ");
-  Serial.println(packet.channel4);
+  // receive.read();
+  // packet = receive.getChannel();
+  // Serial.print(packet.channel1);
+  // Serial.print("  ");
+  // Serial.print(packet.channel2);
+  // Serial.print("  ");
+  // Serial.print(packet.channel3);
+  // Serial.print("  ");
+  // Serial.println(packet.channel4);
   // sendESP_NOW_Master(packet);
 }
 
